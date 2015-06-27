@@ -60,14 +60,14 @@ void setRTCTime(uint8_t dow, uint8_t year, uint8_t month, uint8_t day, uint8_t h
   Wire.beginTransmission(DS3231_ADDRESS);
   Wire.write((uint8_t)0x00); //Seconds register
 
-  Wire.write((uint8_t) RTCDecTobcd(sec)    & 0x01111111); //0 + seconds
-  Wire.write((uint8_t) RTCDecTobcd(minute) & 0x01111111); //0 + minutes
-  Wire.write((uint8_t) RTCDecTobcd(hour)   & 0x00111111); //0 + 12/~24 + hours
+  Wire.write((uint8_t) RTCDecTobcd(sec)    & 0b01111111); //0 + seconds
+  Wire.write((uint8_t) RTCDecTobcd(minute) & 0b01111111); //0 + minutes
+  Wire.write((uint8_t) RTCDecTobcd(hour)   & 0b00111111); //0 + 12/~24 + hours
 
-  Wire.write((uint8_t) RTCDecTobcd(dow)    & 0x00000111); //0x5 + DoW
+  Wire.write((uint8_t) RTCDecTobcd(dow)    & 0b00000111); //0x5 + DoW
 
-  Wire.write((uint8_t) RTCDecTobcd(day)    & 0x00111111); //0 + 0 + Day
-  Wire.write((uint8_t) RTCDecTobcd(month)  & 0x00011111); //Century + 0 + 0 + Month
+  Wire.write((uint8_t) RTCDecTobcd(day)    & 0b00111111); //0 + 0 + Day
+  Wire.write((uint8_t) RTCDecTobcd(month)  & 0b00011111); //Century + 0 + 0 + Month
   Wire.write((uint8_t) RTCDecTobcd(year)); //Year
   Wire.endTransmission();
 }
@@ -86,6 +86,6 @@ void getRTCTime(uint8_t *dow, uint8_t *year, uint8_t *month, uint8_t *day, uint8
   *dow   = RTCbcdToDec(Wire.read());//0x5 + DoW
 
   *day   = RTCbcdToDec(Wire.read());//0 + 0 + Day
-  *month = RTCbcdToDec(Wire.read() & 0x00011111); //Century + 0 + 0 + Month
+  *month = RTCbcdToDec(Wire.read() & 0b00011111); //Century + 0 + 0 + Month
   *year  = RTCbcdToDec(Wire.read());//Year
 }
