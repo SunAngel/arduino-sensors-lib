@@ -5,15 +5,20 @@
 #include <avr/power.h>
 #include <avr/wdt.h>
 
-//volatile uint8_t watchdogActivated = 1;
+// If we use internal WDT for our sleep purposes
+#ifdef USE_INTERNAL_WDT
+
+volatile uint8_t watchdogActivated = 1;
 
 // Define watchdog timer interrupt.
-/**ISR(WDT_vect)
+ISR(WDT_vect)
 {
   // Set the watchdog activated flag.
   // Note that you shouldn't do much work inside an interrupt handler.
   watchdogActivated++;
-}*/
+}
+
+#endif
 
 // Put the Arduino to sleep.
 void sleep()
