@@ -76,7 +76,7 @@ inline void BH1750_init(uint8_t addr) {
 int32_t BH1750_GetLightIntensity(void) {
   int32_t res = -1;
   
-  Wire.requestFrom(bh1750Addr, 2);
+  Wire.requestFrom(bh1750Addr, (uint8_t) 2);
   if (Wire.available() >= 2) {
     res = ((Wire.read() << 8) | Wire.read()) / 1.2;
     //I do not know, why i have to divide result by 1.2? but datasheet says so.
